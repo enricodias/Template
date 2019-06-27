@@ -23,6 +23,12 @@ class Template {
 		
 	}
 	
+	public function __toString() {
+		
+		return $this->getContent();
+		
+	}
+	
 	public function load($fileName) {
 		
 		if (file_exists($fileName.$this->_tex)) {
@@ -80,6 +86,12 @@ class Template {
 	public function getContent() {
 		
 		return $this->_template;
+		
+	}
+	
+	public function publish() {
+		
+		echo $this->getContent();
 		
 	}
 
