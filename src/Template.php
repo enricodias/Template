@@ -1,6 +1,6 @@
 <?php
 
-use enricodias;
+namespace enricodias;
 
 class Template {
 	
