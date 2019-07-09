@@ -4,7 +4,6 @@ namespace enricodias;
 
 class Template {
 	
-	private $_tex = '.tpl';
 	private $_vrs = '{$';
 	private $_vre = '}';
 	private $_tbb = '<!-- BLOCK ';
@@ -31,9 +30,9 @@ class Template {
 	
 	public function load($fileName) {
 		
-		if (file_exists($fileName.$this->_tex)) {
+		if (file_exists($fileName)) {
 			
-			$this->_template = file_get_contents($fileName.$this->_tex);
+			$this->_template = file_get_contents($fileName);
 			
 		}
 		
@@ -43,7 +42,7 @@ class Template {
 		
 		if (empty($this->_reloadCache) || $this->_reloadFile != $fileName ) {
 			
-			$this->_reloadCache = file_get_contents($fileName.$this->_tex);
+			$this->_reloadCache = file_get_contents($fileName);
 			$this->_reloadFile  = $fileName;
 			
 		}
