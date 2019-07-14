@@ -2,6 +2,20 @@
 
 A simple template class, originally created in 2006.
 
+## Installation
+
+Require this package with Composer in the root directory of your project.
+
+```
+composer require enricodias/template
+```
+
+Then you can import the class into your application:
+
+```
+use enricodias\Template;
+```
+
 ## Basic Usage
 
 The class works by loading files in memory and replacing variables delimited by ```{$``` and ```}```.
@@ -21,8 +35,8 @@ The ```reload``` function reloads a file from memory. It prevents reading the sa
 $Template = new Template('head.tpl');
 
 for ($i = 0; $i < 10, ++$i) {
-  $Template->reload('row.tpl');
-  $Template->replace('RowNumber', $i);
+    $Template->reload('row.tpl');
+    $Template->replace('RowNumber', $i);
 }
 
 $Template->reload('footer.tpl');
