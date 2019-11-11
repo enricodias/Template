@@ -2,8 +2,8 @@
 
 namespace enricodias;
 
-class Template {
-	
+class Template
+{
 	private $_vrs = '{$';
 	private $_vre = '}';
 	private $_tbb = '<!-- BLOCK ';
@@ -16,30 +16,27 @@ class Template {
 	private $_blockTemplate;
 	private $_blockCache;
 	
-	public function __construct($fileName = false) {
-		
-		if (!empty($fileName)) $this->load($fileName);
-		
+	public function __construct($fileName = null)
+	{
+		if ($fileName !== null) $this->load($fileName);
 	}
 	
-	public function __toString() {
-		
+	public function __toString()
+	{
 		return $this->getContent();
-		
 	}
 	
-	public function load($fileName) {
-		
+	public function load($fileName)
+	{
 		if (file_exists($fileName)) {
 			
 			$this->_template = file_get_contents($fileName);
 			
 		}
-		
 	}
 	
-	public function reload($fileName) {
-		
+	public function reload($fileName)
+	{
 		if (empty($this->_reloadCache) || $this->_reloadFile != $fileName ) {
 			
 			$this->_reloadCache = file_get_contents($fileName);
@@ -48,11 +45,10 @@ class Template {
 		}
 		
 		$this->_template .= $this->_reloadCache;
-		
 	}
 	
-	public function getBlock($block) {
-		
+	public function getBlock($block)
+	{
 		if ($this->_blockCache) $tmp = $this->_blockCache;
 		else $tmp = $this->_template;
 		
@@ -60,40 +56,31 @@ class Template {
 		$tmp = explode($this->_tbb.$block.$this->_tbe, $tmp[1], 2);
 		
 		$this->_blockTemplate = $tmp[0];
-		
 	}
 	
-	public function makeBlock() {
-		
+	public function makeBlock()
+	{
 		$this->_blockCache = $this->_template;
 		$this->_template   = $this->_blockTemplate;
-		
 	}
 	
-	public function reloadBlock() {
-		
+	public function reloadBlock()
+	{
 		$this->_template .= $this->_blockTemplate;
-		
 	}
 	
-	public function replace($var, $content) {
-		
+	public function replace($var, $content)
+	{
 		$this->_template = str_replace($this->_vrs.$var.$this->_vre, $content, $this->_template);
-		
 	}
 	
-	public function getContent() {
-		
+	public function getContent()
+	{
 		return $this->_template;
-		
 	}
 	
-	public function publish() {
-		
+	public function publish()
+	{
 		echo $this->getContent();
-		
 	}
-
 }
-
-?>
