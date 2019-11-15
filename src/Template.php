@@ -10,36 +10,27 @@ class Template
 	private $_tbs = ' START -->';
 	private $_tbe = ' END -->';
 	
-	private $_template = '';
-	private $_reloadFile;
-	private $_reloadCache;
-	private $_blockTemplate;
-	private $_blockCache;
+	private $_template      = '';
+	private $_reloadFile    = '';
+	private $_reloadCache   = '';
+	private $_blockTemplate = '';
+	private $_blockCache    = '';
 	
 	public function __construct($fileName = null)
 	{
 		if ($fileName !== null) $this->load($fileName);
 	}
 	
-	public function __toString()
-	{
-		return $this->getContent();
-	}
-	
 	public function load($fileName)
 	{
-		if (file_exists($fileName)) {
-			
-			$this->_template = file_get_contents($fileName);
-			
-		}
+		$this->_template = $this->loadFile($fileName);
 	}
 	
 	public function reload($fileName)
 	{
-		if (empty($this->_reloadCache) || $this->_reloadFile != $fileName ) {
+		if ($this->_reloadCache === '') {
 			
-			$this->_reloadCache = file_get_contents($fileName);
+			$this->_reloadCache = $this->loadFile($fileName);
 			$this->_reloadFile  = $fileName;
 			
 		}
@@ -49,13 +40,14 @@ class Template
 	
 	public function getBlock($block)
 	{
-		if ($this->_blockCache) $tmp = $this->_blockCache;
-		else $tmp = $this->_template;
+		$tmp = $this->_template;
+
+		if ($this->_blockCache !== '') $tmp = $this->_blockCache;
 		
 		$tmp = explode($this->_tbb.$block.$this->_tbs, $tmp, 2);
 		$tmp = explode($this->_tbb.$block.$this->_tbe, $tmp[1], 2);
 		
-		$this->_blockTemplate = $tmp[0];
+		$this->_blockTemplate = current($tmp);
 	}
 	
 	public function makeBlock()
@@ -74,6 +66,11 @@ class Template
 		$this->_template = str_replace($this->_vrs.$var.$this->_vre, $content, $this->_template);
 	}
 	
+	public function __toString()
+	{
+		return $this->getContent();
+	}
+	
 	public function getContent()
 	{
 		return $this->_template;
@@ -82,5 +79,12 @@ class Template
 	public function publish()
 	{
 		echo $this->getContent();
+	}
+
+	private function loadFile($fileName)
+	{
+		if (file_exists($fileName)) return file_get_contents($fileName);
+		
+		return '';
 	}
 }
