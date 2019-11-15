@@ -10,7 +10,7 @@ class Template
 	private $_tbs = ' START -->';
 	private $_tbe = ' END -->';
 	
-	private $_template;
+	private $_template = '';
 	private $_reloadFile;
 	private $_reloadCache;
 	private $_blockTemplate;
