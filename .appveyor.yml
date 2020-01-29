@@ -15,7 +15,7 @@ cache:
 
 install:
   - ps: Invoke-WebRequest "https://raw.githubusercontent.com/ChadSikorra/ps-install-php/master/Install-PHP.ps1" -OutFile "Install-PHP.ps1"
-  - ps: .\Install-PHP.ps1 -Version $Env:PHP_VERSION -Highest -Arch x64 -Extensions openssl mbstring
+  - ps: .\Install-PHP.ps1 -Version $Env:PHP_VERSION -Highest -Arch x64 -Extensions openssl,mbstring
   - refreshenv
   - cd C:\projects\php-project-workspace
   - php -r "readfile('https://getcomposer.org/installer');" | php
