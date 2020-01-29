@@ -18,7 +18,8 @@ install:
   - ps: .\Install-PHP.ps1 -Version $Env:PHP_VERSION -Highest -Arch x64 -Extensions openssl,mbstring
   - refreshenv
   - cd C:\projects\php-project-workspace
-  - php -r "readfile('https://getcomposer.org/installer');" | php
+  - ps: Invoke-WebRequest "https://getcomposer.org/installer" -OutFile "composer-setup.php"
+  - php composer-setup.php
 
 before_test:
   - cd C:\projects\php-project-workspace
