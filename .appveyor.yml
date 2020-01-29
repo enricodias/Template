@@ -6,9 +6,12 @@ clone_folder: c:\projects\php-project-workspace
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-    - php_ver_target: 5.6
-    - php_ver_target: 7.3
-    - php_ver_target: 7.4
+    - dependencies: lowest
+      php_ver_target: 5.6
+    - dependencies: current
+      php_ver_target: 7.3
+    - dependencies: highest
+      php_ver_target: 7.4
 
 ## Cache composer, chocolatey and php bits
 cache:
@@ -36,6 +39,7 @@ install:
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
     - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd c:\projects\php-project-workspace
