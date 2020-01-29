@@ -6,17 +6,17 @@ clone_folder: c:\projects\php-project-workspace
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-  - dependencies: lowest
     php_ver_target: 5.6
-  - dependencies: current
     php_ver_target: 7.3
-  - dependencies: highest
     php_ver_target: 7.4
 
-## Cache composer and php bits
+## Cache composer, chocolatey and php bits
 cache:
     - '%LOCALAPPDATA%\Composer\files -> composer.lock'
     - composer.phar
+    # Cache chocolatey packages
+    - C:\ProgramData\chocolatey\bin -> .appveyor.yml
+    - C:\ProgramData\chocolatey\lib -> .appveyor.yml
     # Cache php install
     - c:\tools\php -> .appveyor.yml
 
@@ -35,12 +35,11 @@ install:
     - IF %PHP%==1 copy php.ini-production php.ini /Y
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
+    - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd c:\projects\php-project-workspace
-    - IF %dependencies%==lowest appveyor-retry composer update --prefer-lowest --no-progress --profile -n
-    - IF %dependencies%==current appveyor-retry composer install --no-progress --profile
-    - IF %dependencies%==highest appveyor-retry composer update --no-progress --profile -n
+    - appveyor-retry composer install --profile
     - composer show
 
 ## Run the actual test
