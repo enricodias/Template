@@ -6,9 +6,9 @@ clone_folder: c:\projects\php-project-workspace
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-    php_ver_target: 5.6
-    php_ver_target: 7.3
-    php_ver_target: 7.4
+    - php_ver_target: 5.6
+    - php_ver_target: 7.3
+    - php_ver_target: 7.4
 
 ## Cache composer, chocolatey and php bits
 cache:
