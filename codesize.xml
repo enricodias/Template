@@ -18,7 +18,7 @@
     <rule ref="rulesets/unusedcode.xml" />
 
     <rule ref="rulesets/controversial.xml">
-        <exclude name="CamelCasePropertyName" />
+        <exclude name="CamelCasePropertyName"/>
     </rule>
     <rule ref="rulesets/controversial.xml/CamelCasePropertyName">
         <properties>
